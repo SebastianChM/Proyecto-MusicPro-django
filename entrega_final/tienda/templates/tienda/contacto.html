@@ -1,0 +1,27 @@
+{% extends 'tienda/base.html' %}
+
+{% load static %}
+
+
+{% block contenido %}
+
+{% load crispy_forms_tags %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center">Formulario de contacto</h2>
+            <form action="" class="formulario_contacto" method="post">
+                {% csrf_token %}
+                {{ form | crispy }}
+        
+                <div class="d-flex justify-content-end">
+                    <input type="reset" value="Cancelar" class="btn btn-danger">
+                    &nbsp;
+                    <button type="submit" id="btnEnviar" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+            {{mensaje}}
+        </div>
+    </div>
+    
+
+{% endblock %}

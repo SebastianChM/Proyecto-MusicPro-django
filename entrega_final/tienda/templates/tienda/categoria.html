@@ -1,0 +1,38 @@
+{% extends 'tienda/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+{% load crispy_forms_tags %}
+
+{% load humanize %}
+
+    {% for p in productos %}
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {% if p.imagen %}
+                                <img src="{{ p.imagen.url }}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{p.nameProduct}}</h5>
+                                    <h6 class="card.title">{{p.brand}}</h6>
+                                    <p class="card-text">{{p.description}}</p>
+                                    <p class="card-text"><small class="text-center">{{p.color}}</small></p>
+                                    <p class="card-text">{{p.stock | intcomma}} Productos restantes</p>
+                                    <p class="card-text">${{p.value | intcomma}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

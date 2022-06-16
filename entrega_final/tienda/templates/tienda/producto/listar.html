@@ -1,0 +1,78 @@
+{% extends 'tienda/base.html' %}
+
+{% block js %}
+    <script>
+        function eliminarProducto(id){
+            Swal.fire({
+                "title": "¿Estás seguro?    ",
+                "text": "La acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton":true,
+                "cancelButtonText":"No, Cancelar",
+                "confirmButtonText":"Sí, Eliminar",
+                "reverseButtons":"true",
+                "confirmButtonColor":"#dc3545"
+            })
+            .then(function(result) {
+                if(result.isConfirmed) {
+                    window.location.href = "/eliminar-producto/"+id+"/"
+                }
+            })
+        } 
+    </script>
+{% endblock %}
+
+{% load static %}
+
+
+{% block contenido %}
+
+{% load crispy_forms_tags %}
+
+{% load humanize %}
+
+    <table class="table table-striped table-hover table-responsive-sm">
+        <tr>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Color</th>
+            <th>Descripción</th>
+            <th>Valor</th>
+            <th>Stock Disponible</th>
+            <th>Tipo</th>
+            <th>Imagén</th>
+            <th>Opciones</th>
+
+        </tr>
+
+        {% for p in productos %}
+
+        <tr>
+            <td>{{p.nameProduct | title }}</td>
+            <td>{{p.brand | title }}</td>
+            <td>{{p.color | title }}</td>
+            <td>{{p.description}}</td>
+            <td>{{p.value | intcomma }}</td>
+            <td>{{p.stock}}</td>
+            <td>{{p.detalleCategoria}}</td>
+            <td>
+                {% if p.imagen %}
+                <img width="100%" height="100%" src="{{ p.imagen.url }}">
+                {% endif %}
+            </td>
+            <td class="">
+                {% if perms.tienda.change_product %}
+                <a href="{% url 'modificar_producto' p.id %}" class="btn btn-warning">Modificar</a>
+                {% endif %}
+
+                {% if perms.tienda.delete_product %}
+                <a href="#" onclick="eliminarProducto({{ p.id }})" class="btn btn-danger">Eliminar</a>
+                {% endif %}
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
